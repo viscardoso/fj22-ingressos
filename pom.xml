@@ -9,6 +9,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+	<developers>
+		<developer>
+			<name>Victor Cardoso</name>
+			<email>victor_92santos@hotmail.com</email>
+		</developer>
+	</developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
