@@ -1,6 +1,9 @@
 package br.com.caelum.ingresso.model;
 
 import javax.persistence.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,8 +16,8 @@ public class Sala {
     @Id
     @GeneratedValue
     private Integer id;
-
     private String nome;
+    private BigDecimal preco = BigDecimal.ZERO;
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Lugar> lugares = new HashSet<>();
@@ -30,7 +33,12 @@ public class Sala {
     public Sala(String nome) {
         this.nome = nome;
     }
-
+    
+    public Sala(String nome, BigDecimal preco) {
+    	this.nome = nome;
+    	this.preco = preco;
+    }
+    
     public Integer getId() {
         return id;
     }
@@ -59,7 +67,15 @@ public class Sala {
     public void setLugares(Set<Lugar> lugares) {
         this.lugares = lugares;
     }
-
+    
+    public BigDecimal getPreco() {
+    	return preco.setScale(2, RoundingMode.HALF_UP);
+    }
+    
+    public void setPreco(BigDecimal preco) {
+    	this.preco = preco;
+    }
+    
     public Map<String, List<Lugar>> getMapaDeLugares() {
         if(!this.lugares.isEmpty()){
             return this.lugares.stream().collect(Collectors.groupingBy(Lugar::getFileira,Collectors.toList()));
@@ -71,4 +87,6 @@ public class Sala {
         Optional<Lugar> optional = this.lugares.stream().filter((x) -> fileira.equals(x.getFileira()) && posicao.equals(x.getPosicao())).findFirst();
         return optional.get().getId();
     }
+    
+    
 }
